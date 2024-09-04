@@ -1,0 +1,50 @@
+-- exercicio1 --
+SELECT 
+    Orders.order_id, 
+    Orders.order_date, 
+    Customers.first_name, 
+    Customers.last_name, 
+    Customers.email
+FROM Orders
+JOIN Customers ON Orders.customer_id = Customers.customer_id;
+
+-- exercicio2 --
+SELECT 
+    Products.product_name, 
+    Order_Items.quantity
+FROM Order_Items
+JOIN Products ON Order_Items.product_id = Products.product_id
+JOIN Orders ON Order_Items.order_id = Orders.order_id
+WHERE Orders.customer_id = 1; 
+
+-- exercicio3 --
+SELECT 
+    Customers.first_name, 
+    Customers.last_name, 
+    SUM(Order_Items.quantity * Products.price) AS total
+FROM Customers
+LEFT JOIN Orders ON Customers.customer_id = Orders.customer_id
+LEFT JOIN Order_Items ON Orders.order_id = Order_Items.order_id
+LEFT JOIN Products ON Order_Items.product_id = Products.product_id
+GROUP BY Customers.customer_id, Customers.first_name, Customers.last_name;
+
+--exercicio4 --
+SELECT 
+    Customers.first_name, 
+    Customers.last_name
+FROM Customers
+LEFT JOIN Orders ON Customers.customer_id = Orders.customer_id
+WHERE Orders.order_id IS NULL;
+
+--exercicio5 --
+SELECT 
+    Products.product_name, 
+    SUM(Order_Items.quantity) AS total_quantity_sold
+FROM Order_Items
+JOIN Products ON Order_Items.product_id = Products.product_id
+GROUP BY Products.product_name
+ORDER BY total_quantity_sold DESC;
+
+
+
+
